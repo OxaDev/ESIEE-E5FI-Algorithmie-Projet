@@ -269,6 +269,17 @@ def CheminMax_approche_gloutonne(T):
     return path,cout
 
 def CheminMax_approche_optimale(T,i=0, j=0, M=[]):
+    n = len(T)
+    M = [[0 for j in range(i+1)] for i in range(n)]
+    for i in range(n): M[n-1][i] = T[n-1][i]
+    
+    indic = n-2
+    while(indic >= 0):
+        for j in range(len(T[indic])):
+            M[indic][j] = T[indic][j] + max(M[indic+1][j],M[indic+1][j+1])
+        indic -= 1
+    return M
+    """
     if i == 0:
         # init path tab
         M = []
@@ -286,6 +297,7 @@ def CheminMax_approche_optimale(T,i=0, j=0, M=[]):
     
     M[i][j] = T[i][j] + max(M[i+1][j],M[i+1][j+1])
     return M  
+    """
 
 #####################################################
 ############# Robot sur Graphe ######################
@@ -478,7 +490,7 @@ if( args.chemin_max or args.all ):
     dist_list = []
 
     for i in range(nb_tests):
-        N = random.randint(5,20)
+        N = random.randint(5,400)
         temp_Tr = []
         for j in range(N):
             temp_tab = []
